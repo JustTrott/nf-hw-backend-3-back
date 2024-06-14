@@ -18,7 +18,6 @@ async function parse9GagTrending() {
 	}
 }
 
-let posts = await parse9GagTrending();
 function extractPostData(posts) {
 	const extractedData = posts.map((post) => {
 		const { id, title, type, images, creationTs } = post;
@@ -36,15 +35,18 @@ function extractPostData(posts) {
 
 	return extractedData;
 }
-const extractedPosts = extractPostData(posts);
-console.log(extractedPosts);
 
-axios
-	.post(`${process.env.API_URL}/posts`, extractedPosts)
-	.then((res) => {
-		console.log(`statusCode: ${res.statusCode}`);
-		console.log(res);
-	})
-	.catch((error) => {
+module.exports.handler = async function savePosts() {
+	try {
+		const posts = await parse9GagTrending();
+		const extractedPosts = extractPostData(posts);
+		const response = await axios.post(
+			`${process.env.API_URL}/posts`,
+			extractedPosts
+		);
+		console.log(`statusCode: ${response.statusCode}`);
+		console.log(response);
+	} catch (error) {
 		console.error(error);
-	});
+	}
+};
