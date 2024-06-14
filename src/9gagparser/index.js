@@ -1,6 +1,6 @@
-import fetch from "node-fetch";
-import axios from "axios";
-import dotenv from "dotenv";
+const fetch = require("node-fetch");
+const axios = require("axios");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
