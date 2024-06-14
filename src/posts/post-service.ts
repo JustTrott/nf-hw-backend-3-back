@@ -4,7 +4,8 @@ import PostModel, { IPost } from "./models/Post";
 
 class PostService {
 	async getPosts(): Promise<IPost[]> {
-		return await PostModel.find().exec();
+		// sort by date in descending order
+		return await PostModel.find().sort({ date: -1 }).exec();
 	}
 
 	async getPostById(id: string): Promise<IPost | null> {
